@@ -1,0 +1,45 @@
+items:
+  - label: Benachrichtigungen bei neuen Terminvorschlägen
+    discord: true
+    telegram: true
+    primeLeague: true
+  - label: Terminbestätigungen
+    discord: true
+    telegram: true
+    primeLeague: true
+  - label: Neue Kommentare unter Matches
+    discord: true
+    telegram: true
+    primeLeague: true
+  - label: Neue Lineups der Gegner
+    discord: true
+    telegram: true
+    primeLeague: false
+  - label: Wöchentliche Übersicht der Matches in der Woche
+    discord: true
+    telegram: true
+    primeLeague: false
+  - label: Detaillierte Übersicht zu Matches
+    discord: true
+    telegram: true
+    primeLeague: false
+  - label: Personalisierung der Benachrichtigungen
+    discord: true
+    telegram: true
+    primeLeague: true
+  - label: Rollenerwähnung
+    discord: true
+    telegram: false
+    primeLeague: false
+  - label: Mehrere Sprachen (Deutsch und Englisch)
+    discord: true
+    telegram: true
+    primeLeague: true
+  - label: Zeitzonen werden berücksichtigt
+    discord: true
+    telegram: false
+    primeLeague: true
+  - label: Discord Events
+    discord: true
+    telegram: false
+    primeLeague: false

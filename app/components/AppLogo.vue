@@ -1,6 +1,6 @@
 <template>
-  <!-- TODO: replace with PrimeBot logo -->
-  <span class="text-xl font-bold tracking-tight">
-    Prime<span class="text-primary">Bot</span>
+  <span class="flex items-center gap-2 text-xl font-bold tracking-tight">
+    <PrimeBotLogo class="h-6 w-auto text-highlighted" />
+    PrimeBot
   </span>
 </template>

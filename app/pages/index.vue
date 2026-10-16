@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData('landing', () => queryCollection('landing').first())
+const { data: page } = await useAsyncData('landing', () => queryCollection('pages').path('/').first())
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
@@ -17,29 +17,8 @@ useSeoMeta({
 </script>
 
 <template>
-  <div v-if="page">
-    <UPageHero
-      :headline="page.hero.headline"
-      :title="page.title"
-      :description="page.description"
-      :links="page.hero.links"
-    />
-
-    <UPageSection
-      id="features"
-      :headline="page.features.headline"
-      :title="page.features.title"
-      :description="page.features.description"
-      :features="page.features.items"
-    />
-
-    <UPageSection>
-      <UPageCTA
-        :title="page.cta.title"
-        :description="page.cta.description"
-        :links="page.cta.links"
-        variant="subtle"
-      />
-    </UPageSection>
-  </div>
+  <ContentRenderer
+    v-if="page"
+    :value="page"
+  />
 </template>

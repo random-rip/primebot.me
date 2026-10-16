@@ -12,6 +12,8 @@ useSeoMeta({
   description: page.value.seo?.description || page.value.description,
   ogDescription: page.value.seo?.description || page.value.description
 })
+
+const tocLinks = computed(() => page.value?.body?.toc?.links ?? [])
 </script>
 
 <template>
@@ -25,6 +27,16 @@ useSeoMeta({
       <UPageBody>
         <ContentRenderer :value="page" />
       </UPageBody>
+
+      <template
+        v-if="tocLinks.length"
+        #right
+      >
+        <UContentToc
+          :links="tocLinks"
+          title="Auf dieser Seite"
+        />
+      </template>
     </UPage>
   </UContainer>
 </template>

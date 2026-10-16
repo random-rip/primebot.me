@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { globSync } from 'node:fs'
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -20,11 +22,20 @@ export default defineNuxtConfig({
     }
   },
 
+  runtimeConfig: {
+    public: {
+      // PrimeBot backend, empty = same origin (primebot.me serves the API under /api)
+      apiBase: ''
+    }
+  },
+
   compatibilityDate: '2026-10-01',
 
   nitro: {
     prerender: {
-      routes: ['/'],
+      // Dropdown links are not part of the server-rendered HTML, so the crawler alone misses pages
+      routes: globSync('**/*.md', { cwd: 'content' })
+        .map(file => '/' + file.replace(/\.md$/, '').replace(/(^|\/)index$/, '')),
       crawlLinks: true
     }
   },
