@@ -1,0 +1,13 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 1044dbea4ec6ec1402531b339d6739c8d88645c5..ec8eafec777bba023b7bd60693d0764a1d69f109 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -847,7 +847,7 @@ function resolveModuleURL(input, options) {
+ 			return url.href;
+ 		}
+ 	} catch (error) {
+-		if (error?.code !== "ENOENT") {
++		if (error?.code !== "ENOENT" && error?.code !== "ENOTDIR") {
+ 			if (cacheObj) _cacheError(cacheObj, cacheKey, error);
+ 			throw error;
+ 		}

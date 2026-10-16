@@ -1,0 +1,39 @@
+title: PrimeBot
+description: Platzhalter-Beschreibung für die Landingpage.
+seo:
+  title: PrimeBot
+  description: Platzhalter-Beschreibung für die Landingpage.
+hero:
+  headline: Discord & Telegram Bot
+  links:
+    - label: Discord
+      to: /get-started/discord
+      icon: i-simple-icons-discord
+      size: xl
+    - label: Telegram
+      to: /get-started/telegram
+      icon: i-simple-icons-telegram
+      size: xl
+      color: neutral
+      variant: subtle
+features:
+  headline: Features
+  title: Platzhalter-Titel
+  description: Platzhalter-Beschreibung.
+  items:
+    - icon: i-lucide-bell
+      title: Feature 1
+      description: Platzhalter.
+    - icon: i-lucide-calendar-check
+      title: Feature 2
+      description: Platzhalter.
+    - icon: i-lucide-users
+      title: Feature 3
+      description: Platzhalter.
+cta:
+  title: Platzhalter-CTA
+  description: Platzhalter.
+  links:
+    - label: Jetzt starten
+      to: /get-started/discord
+      trailingIcon: i-lucide-arrow-right

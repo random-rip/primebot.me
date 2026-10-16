@@ -1,0 +1,11 @@
+diff --git a/dist/runtime/composables/useComponentMeta.js b/dist/runtime/composables/useComponentMeta.js
+index c85da139a61d7bc53e3333c4fce44ffab6d32f4b..21df95a6882a2c4e6ead093104dd85bfdd04a157 100644
+--- a/dist/runtime/composables/useComponentMeta.js
++++ b/dist/runtime/composables/useComponentMeta.js
+@@ -1,5 +1,5 @@
+ import { reactive, computed, unref } from "vue";
+-import { useNuxtApp, useAsyncData } from "#imports";
++import { useNuxtApp, useAsyncData, $fetch } from "#imports";
+ export const __getComponentMeta = async () => {
+   const __metas = await import("#nuxt-component-meta");
+   return __metas?.default || __metas;

@@ -1,0 +1,25 @@
+header:
+  - label: Home
+    to: /
+  - label: Installation
+    to: /installation
+  - label: Infos
+    to: /information/contact
+cta:
+  - label: Discord
+    to: /get-started/discord
+    icon: i-simple-icons-discord
+  - label: Telegram
+    to: /get-started/telegram
+    icon: i-simple-icons-telegram
+    color: neutral
+    variant: subtle
+footer:
+  - label: Impressum
+    to: /imprint
+  - label: Kontakt
+    to: /information/contact
+  - label: Datenschutz
+    to: /privacy
+  - label: Nutzungsbedingungen
+    to: /tos

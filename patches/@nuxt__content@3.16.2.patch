@@ -1,0 +1,96 @@
+diff --git a/dist/runtime/client.js b/dist/runtime/client.js
+index d489287a973d5f500a815260a7cfd3129fa613dd..7c9a6f5258b03cf6e2deef97dc5399234bf84a82 100644
+--- a/dist/runtime/client.js
++++ b/dist/runtime/client.js
+@@ -3,7 +3,7 @@ import { generateNavigationTree } from "./internal/navigation.js";
+ import { generateItemSurround } from "./internal/surround.js";
+ import { generateSearchSections, buildFTSIndex, queryFTS, resetFTSIndex } from "./internal/search.js";
+ import { fetchQuery } from "./internal/api.js";
+-import { ref, toValue, watch, tryUseNuxtApp } from "#imports";
++import { ref, toValue, watch, tryUseNuxtApp, $fetch } from "#imports";
+ export const queryCollection = (collection) => {
+   const event = tryUseNuxtApp()?.ssrContext?.event;
+   return collectionQueryBuilder(collection, (collection2, sql) => executeContentQuery(event, collection2, sql));
+@@ -68,7 +68,7 @@ async function executeContentQuery(event, collection, sql) {
+   if (import.meta.client && window.WebAssembly) {
+     return queryContentSqlClientWasm(collection, sql);
+   } else {
+-    return fetchQuery(event, String(collection), sql);
++    return fetchQuery(event, String(collection), sql, $fetch);
+   }
+ }
+ async function queryContentSqlClientWasm(collection, sql) {
+diff --git a/dist/runtime/components/ContentPreviewMode.vue b/dist/runtime/components/ContentPreviewMode.vue
+index ee7ee40e8b5892d0453a2ae91e96a988c195a4ce..4babc2df419f567467ea221aab2358068f8258fd 100644
+--- a/dist/runtime/components/ContentPreviewMode.vue
++++ b/dist/runtime/components/ContentPreviewMode.vue
+@@ -1,6 +1,7 @@
+ <script setup>
+ import { onMounted, ref, onUnmounted } from "vue";
+ import { useCookie, useNuxtApp, useRouter } from "#app";
++import { $fetch } from "#imports";
+ const props = defineProps({
+   previewToken: {
+     type: String,
+diff --git a/dist/runtime/internal/api.js b/dist/runtime/internal/api.js
+index 650d1b2d76837ca6757cb709fc9b43fd12d7b2b3..74427ac054c86232680ffa10df93756f4bb41bdd 100644
+--- a/dist/runtime/internal/api.js
++++ b/dist/runtime/internal/api.js
+@@ -1,6 +1,6 @@
+ import { getRequestHeaders } from "h3";
+ import { checksums } from "#content/manifest";
+-async function fetchContent(event, collection, path, options) {
++async function fetchContent(event, collection, path, options, fetcher) {
+   const headers = event ? getRequestHeaders(event) : {};
+   headers["accept-encoding"] = void 0;
+   for (const name of ["content-length", "transfer-encoding", "content-encoding", "expect"]) {
+@@ -15,17 +15,17 @@ async function fetchContent(event, collection, path, options) {
+     },
+     query: { v: checksums[String(collection)], t: import.meta.dev ? Date.now() : void 0 }
+   };
+-  return event ? await event.$fetch(url, fetchOptions) : await $fetch(url, fetchOptions);
++  return event ? await event.$fetch(url, fetchOptions) : await (fetcher ?? globalThis.$fetch)(url, fetchOptions);
+ }
+-export async function fetchDatabase(event, collection) {
++export async function fetchDatabase(event, collection, fetcher) {
+   return fetchContent(event, collection, "sql_dump.txt", {
+     responseType: "text",
+     headers: {
+       "content-type": "text/plain"
+     }
+-  });
++  }, fetcher);
+ }
+-export async function fetchQuery(event, collection, sql) {
++export async function fetchQuery(event, collection, sql, fetcher) {
+   return fetchContent(event, collection, "query", {
+     headers: {
+       "content-type": "application/json"
+@@ -34,5 +34,5 @@ export async function fetchQuery(event, collection, sql) {
+     body: {
+       sql
+     }
+-  });
++  }, fetcher);
+ }
+diff --git a/dist/runtime/internal/database.client.js b/dist/runtime/internal/database.client.js
+index deeb56132000a83f093493713d75856538863a3e..cb34557986f9debee9b1438be8725997ac4a1854 100644
+--- a/dist/runtime/internal/database.client.js
++++ b/dist/runtime/internal/database.client.js
+@@ -2,6 +2,7 @@ import { decompressSQLDump } from "./dump.js";
+ import { refineContentFields } from "./collection.js";
+ import { fetchDatabase } from "./api.js";
+ import { checksums, tables } from "#content/manifest";
++import { $fetch } from "#imports";
+ let db;
+ const loadedCollections = /* @__PURE__ */ new Map();
+ const dbPromises = /* @__PURE__ */ new Map();
+@@ -89,7 +90,7 @@ async function loadCollectionDatabase(collection) {
+       }
+     }
+     if (!compressedDump) {
+-      compressedDump = await fetchDatabase(void 0, String(collection));
++      compressedDump = await fetchDatabase(void 0, String(collection), $fetch);
+       if (!import.meta.dev) {
+         try {
+           window.localStorage.setItem(`content_${checksumId}`, checksums[String(collection)]);

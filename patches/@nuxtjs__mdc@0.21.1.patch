@@ -1,0 +1,14 @@
+diff --git a/dist/runtime/highlighter/rehype-nuxt.js b/dist/runtime/highlighter/rehype-nuxt.js
+index 3a49642950f1d3761e5a69a852563b4b69d288f1..49d202851ea20a86318d3dfdc0de2161751202ed 100644
+--- a/dist/runtime/highlighter/rehype-nuxt.js
++++ b/dist/runtime/highlighter/rehype-nuxt.js
+@@ -27,7 +27,8 @@ const defaults = {
+           return import("#mdc-highlighter").then((h) => h.default(code, lang, theme, options)).catch(() => ({}));
+         }
+       }
+-      const result = await $fetch("/api/_mdc/highlight", {
++      const _$fetch = import.meta.client ? (await import("#build/fetch")).$fetch : globalThis.$fetch;
++      const result = await _$fetch("/api/_mdc/highlight", {
+         params: {
+           code,
+           lang,
