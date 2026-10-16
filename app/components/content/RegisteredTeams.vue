@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { data } = useBotStatus()
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -7,6 +8,6 @@ const { data } = useBotStatus()
     v-if="data?.registered_teams"
     class="text-lg font-semibold text-primary"
   >
-    {{ data.registered_teams.toLocaleString('de-DE') }} Teams benutzen bereits den PrimeBot (. ❛ ᴗ ❛.)
+    {{ $t('teams.registered', { count: data.registered_teams.toLocaleString(locale) }) }}
   </p>
 </template>

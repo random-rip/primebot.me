@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data } = await useAsyncData('feature-matrix', () => queryCollection('features').first())
+const { locale } = useI18n()
+
+const { data } = await useAsyncData(() => `feature-matrix-${locale.value}`, () => queryCollection(`features_${locale.value}`).first())
 
 const columns = [
   { key: 'discord', label: 'Discord', icon: 'i-simple-icons-discord' },
@@ -17,7 +19,7 @@ const columns = [
       <thead class="bg-muted">
         <tr>
           <th class="px-4 py-3 text-left font-semibold">
-            <span class="sr-only">Feature</span>
+            <span class="sr-only">{{ $t('features.feature') }}</span>
           </th>
           <th
             v-for="column in columns"
@@ -52,7 +54,7 @@ const columns = [
               :class="item[column.key] ? 'text-success' : 'text-dimmed'"
               class="size-5"
             />
-            <span class="sr-only">{{ item[column.key] ? 'ja' : 'nein' }}</span>
+            <span class="sr-only">{{ $t(item[column.key] ? 'features.yes' : 'features.no') }}</span>
           </td>
         </tr>
       </tbody>

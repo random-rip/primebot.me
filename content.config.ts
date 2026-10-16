@@ -27,32 +27,54 @@ const createNavigationItemSchema = () => z.object({
   })).optional()
 })
 
+const navigationSchema = z.object({
+  header: z.array(createNavigationItemSchema()),
+  cta: z.array(createLinkSchema()),
+  footer: z.array(createLinkSchema())
+})
+
+const featuresSchema = z.object({
+  items: z.array(z.object({
+    label: z.string().nonempty(),
+    discord: z.boolean(),
+    telegram: z.boolean(),
+    primeLeague: z.boolean()
+  }))
+})
+
+// One set of collections per locale, German (default) pages keep their unprefixed paths, English ones live under /en
 export const collections = {
-  pages: defineCollection({
+  pages_de: defineCollection({
     type: 'page',
-    source: '**/*.md'
+    source: { include: 'de/**/*.md', prefix: '' }
   }),
 
-  navigation: defineCollection({
-    type: 'data',
-    source: 'navigation.yml',
-    schema: z.object({
-      header: z.array(createNavigationItemSchema()),
-      cta: z.array(createLinkSchema()),
-      footer: z.array(createLinkSchema())
-    })
+  pages_en: defineCollection({
+    type: 'page',
+    source: { include: 'en/**/*.md', prefix: '/en' }
   }),
 
-  features: defineCollection({
+  navigation_de: defineCollection({
     type: 'data',
-    source: 'features.yml',
-    schema: z.object({
-      items: z.array(z.object({
-        label: z.string().nonempty(),
-        discord: z.boolean(),
-        telegram: z.boolean(),
-        primeLeague: z.boolean()
-      }))
-    })
+    source: 'de/navigation.yml',
+    schema: navigationSchema
+  }),
+
+  navigation_en: defineCollection({
+    type: 'data',
+    source: 'en/navigation.yml',
+    schema: navigationSchema
+  }),
+
+  features_de: defineCollection({
+    type: 'data',
+    source: 'de/features.yml',
+    schema: featuresSchema
+  }),
+
+  features_en: defineCollection({
+    type: 'data',
+    source: 'en/features.yml',
+    schema: featuresSchema
   })
 }

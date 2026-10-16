@@ -13,8 +13,11 @@ interface Release {
   prerelease: boolean
 }
 
-// Title and description stay editable in content/information/changelog.md
-const { data: page } = await useAsyncData('page-/information/changelog', () => queryCollection('pages').path('/information/changelog').first())
+const route = useRoute()
+const { locale } = useI18n()
+
+// Title and description stay editable in content/{de,en}/information/changelog.md
+const { data: page } = await useAsyncData(() => `page-${route.path}`, () => queryCollection(`pages_${locale.value}`).path(route.path).first())
 
 useSeoMeta({
   title: page.value?.seo?.title || page.value?.title,
@@ -24,7 +27,7 @@ useSeoMeta({
 })
 
 function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('de-DE', { dateStyle: 'medium', timeZone: 'UTC' })
+  return new Date(date).toLocaleDateString(locale.value, { dateStyle: 'medium', timeZone: 'UTC' })
 }
 
 // GitHub release notes contain bare `@handle` mentions, link them like GitHub does (skipping emails and inline code)
@@ -38,7 +41,7 @@ function linkMentions(markdown: string) {
 }
 
 // Fetched at build time (prerender), so a rebuild picks up new releases
-const { data: versions } = await useAsyncData(`changelog-${repo}`, () =>
+const { data: versions } = await useAsyncData(() => `changelog-${repo}`, () =>
   $fetch<Release[]>(`https://api.github.com/repos/${repo}/releases`, {
     query: { per_page: 100 },
     headers: { accept: 'application/vnd.github+json' }
@@ -93,14 +96,20 @@ const { data: versions } = await useAsyncData(`changelog-${repo}`, () =>
         v-if="!versions.length"
         class="py-16 text-muted sm:py-24"
       >
-        Die Changelogs konnten nicht geladen werden. Alle Releases findest du auf
-        <ULink
-          :to="`https://github.com/${repo}/releases`"
-          target="_blank"
-          class="text-primary"
+        <i18n-t
+          keypath="changelog.error"
+          scope="global"
         >
-          GitHub
-        </ULink>.
+          <template #link>
+            <ULink
+              :to="`https://github.com/${repo}/releases`"
+              target="_blank"
+              class="text-primary"
+            >
+              GitHub
+            </ULink>
+          </template>
+        </i18n-t>
       </p>
 
       <UChangelogVersions

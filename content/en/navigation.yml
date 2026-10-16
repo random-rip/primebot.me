@@ -1,0 +1,52 @@
+header:
+  - label: Home
+    to: /en
+  - label: Installation
+    children:
+      - label: Discord
+        to: /en/get-started/discord
+        icon: i-simple-icons-discord
+      - label: Telegram
+        to: /en/get-started/telegram
+        icon: i-simple-icons-telegram
+  - label: Info
+    children:
+      - label: Calendar
+        to: /en/information/calendar
+        icon: i-lucide-calendar
+      - label: Unofficial Prime League API
+        to: /en/information/api
+        icon: i-lucide-code
+      - label: Contact
+        to: /en/information/contact
+        icon: i-lucide-mail
+      - label: Partner
+        to: /en/information/partner
+        icon: i-lucide-handshake
+      - label: Changelog
+        to: /en/information/changelog
+        icon: i-lucide-history
+      - label: Status
+        to: /en/information/status
+        icon: i-lucide-activity
+      - label: Open Source
+        to: /en/information/open-source
+        icon: i-simple-icons-github
+cta:
+  - label: Discord
+    to: /en/get-started/discord
+    icon: i-simple-icons-discord
+    class: bg-[#5865f2] text-white hover:bg-[#4752c4]
+  - label: Telegram
+    to: /en/get-started/telegram
+    icon: i-simple-icons-telegram
+    class: bg-[#2aabee] text-white hover:bg-[#229ed9]
+footer:
+  - label: Legal Notice
+    to: /en/imprint
+  - label: Contact
+    to: /en/information/contact
+  - label: Privacy
+    to: /en/privacy
+  - label: Terms of Service
+    to: /en/tos

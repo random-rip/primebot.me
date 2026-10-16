@@ -1,0 +1,32 @@
+diff --git a/dist/runtime/components/NuxtLinkLocale.js b/dist/runtime/components/NuxtLinkLocale.js
+index f064a606ae31888e69aa753fabc24fc43042a736..9a3829ca2b073afa483a8bced129b716f70eb0de 100644
+--- a/dist/runtime/components/NuxtLinkLocale.js
++++ b/dist/runtime/components/NuxtLinkLocale.js
+@@ -1,5 +1,5 @@
+ import { isObject } from "@intlify/shared";
+-import { useLocaleRoute } from "#i18n";
++import { useLocaleRoute } from "../composables/index.js";
+ import { computed, defineComponent, h } from "vue";
+ import { NuxtLink } from "#components";
+ import { hasProtocol } from "ufo";
+diff --git a/dist/runtime/components/SwitchLocalePathLink.js b/dist/runtime/components/SwitchLocalePathLink.js
+index 259203d1cdc8879e25a302275bc6064fa2303eec..d5604a8762416ab41d5d06ca88223485d8101385 100644
+--- a/dist/runtime/components/SwitchLocalePathLink.js
++++ b/dist/runtime/components/SwitchLocalePathLink.js
+@@ -1,4 +1,4 @@
+-import { useSwitchLocalePath } from "#i18n";
++import { useSwitchLocalePath } from "../composables/index.js";
+ import { defineNuxtLink, useNuxtApp } from "#imports";
+ import { Comment, computed, defineComponent, h, mergeProps } from "vue";
+ import { hasProtocol } from "ufo";
+diff --git a/dist/runtime/plugins/switch-locale-path-ssr.js b/dist/runtime/plugins/switch-locale-path-ssr.js
+index 3533eee87fe438e693282c7955f08d909deb3c30..fb40cf17124b52b3d079f755fe343927874ac88a 100644
+--- a/dist/runtime/plugins/switch-locale-path-ssr.js
++++ b/dist/runtime/plugins/switch-locale-path-ssr.js
+@@ -1,5 +1,5 @@
+ import { defineNuxtPlugin, useNuxtApp } from "#imports";
+-import { useSwitchLocalePath } from "#i18n";
++import { useSwitchLocalePath } from "../composables/index.js";
+ import { escapeHtmlAttr } from "../shared/utils.js";
+ const identifier = __SWITCH_LOCALE_PATH_LINK_IDENTIFIER__;
+ const switchLocalePathLinkWrapperExpr = new RegExp(

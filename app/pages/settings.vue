@@ -102,7 +102,7 @@ const countdown = computed(() => {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`
 })
 
-const saving = ref(false)
+const saving = shallowRef(false)
 
 async function save() {
   if (!team.value) {

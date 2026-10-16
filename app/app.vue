@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { de, en } from '@nuxt/ui/locale'
+
 const colorMode = useColorMode()
+const { locale } = useI18n()
+// lang + dir on <html>, hreflang alternates, canonical and og:locale
+const head = useLocaleHead()
+
+const uiLocales = { de, en }
 
 const color = computed(() => colorMode.value === 'dark' ? '#09090b' : 'white')
 
@@ -11,11 +18,14 @@ useHead({
   link: [
     { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
     { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }
-  ],
-  htmlAttrs: {
-    lang: 'de'
-  }
+  ]
 })
+
+useHead(() => ({
+  htmlAttrs: head.value.htmlAttrs,
+  link: head.value.link,
+  meta: head.value.meta
+}))
 
 useSeoMeta({
   titleTemplate: '%s - PrimeBot'
@@ -23,7 +33,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <UApp>
+  <UApp :locale="uiLocales[locale]">
     <NuxtRouteAnnouncer />
 
     <AppHeader />

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/content',
     '@vueuse/nuxt',
+    '@nuxtjs/i18n',
     'nuxt-studio'
   ],
 
@@ -34,8 +35,9 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       // Dropdown links are not part of the server-rendered HTML, so the crawler alone misses pages
-      routes: globSync('**/*.md', { cwd: 'content' })
-        .map(file => '/' + file.replace(/\.md$/, '').replace(/(^|\/)index$/, '')),
+      // content/de/* → /*, content/en/* → /en/*
+      routes: globSync('{de,en}/**/*.md', { cwd: 'content' })
+        .map(file => '/' + file.replace(/^de\//, '').replace(/\.md$/, '').replace(/\/?index$/, '')),
       crawlLinks: true
     }
   },
@@ -46,6 +48,23 @@ export default defineNuxtConfig({
         commaDangle: 'never',
         braceStyle: '1tbs'
       }
+    }
+  },
+
+  i18n: {
+    locales: [
+      { code: 'de', language: 'de-DE', name: 'Deutsch', file: 'de.json' },
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' }
+    ],
+    defaultLocale: 'de',
+    strategy: 'prefix_except_default',
+    baseUrl: 'https://primebot.me',
+    // Static site: no redirects based on the browser language, the switcher in the header is enough
+    detectBrowserLanguage: false,
+    customRoutes: 'config',
+    pages: {
+      // Not translated yet, only available in German at /settings
+      settings: false
     }
   },
 

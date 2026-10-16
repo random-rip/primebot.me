@@ -29,13 +29,13 @@ const services = computed(() => [
         />
         <UBadge
           v-else-if="status === 'error'"
-          label="unbekannt"
+          :label="$t('status.unknown')"
           color="neutral"
           variant="subtle"
         />
         <UBadge
           v-else
-          :label="service.online ? 'online' : 'offline'"
+          :label="$t(service.online ? 'status.online' : 'status.offline')"
           :color="service.online ? 'success' : 'error'"
           variant="subtle"
         />

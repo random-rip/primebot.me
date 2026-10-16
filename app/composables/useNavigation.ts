@@ -1,3 +1,5 @@
 export function useNavigation() {
-  return useAsyncData('navigation', () => queryCollection('navigation').first())
+  const { locale } = useI18n()
+
+  return useAsyncData(() => `navigation-${locale.value}`, () => queryCollection(`navigation_${locale.value}`).first())
 }

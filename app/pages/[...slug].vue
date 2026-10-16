@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
+const { locale } = useI18n()
 
-const { data: page } = await useAsyncData(`page-${route.path}`, () => queryCollection('pages').path(route.path).first())
+const { data: page } = await useAsyncData(() => `page-${route.path}`, () => queryCollection(`pages_${locale.value}`).path(route.path).first())
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
@@ -34,7 +35,7 @@ const tocLinks = computed(() => page.value?.body?.toc?.links ?? [])
       >
         <UContentToc
           :links="tocLinks"
-          title="Auf dieser Seite"
+          :title="$t('page.toc')"
         />
       </template>
     </UPage>

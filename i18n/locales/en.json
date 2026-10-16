@@ -1,0 +1,28 @@
+{
+  "page": {
+    "toc": "On this page"
+  },
+  "error": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist."
+  },
+  "language": {
+    "switch": "Switch language"
+  },
+  "status": {
+    "unknown": "unknown",
+    "online": "online",
+    "offline": "offline"
+  },
+  "features": {
+    "feature": "Feature",
+    "yes": "yes",
+    "no": "no"
+  },
+  "teams": {
+    "registered": "{count} teams are already using PrimeBot (. ❛ ᴗ ❛.)"
+  },
+  "changelog": {
+    "error": "The changelogs could not be loaded. You can find all releases on {link}."
+  }
+}

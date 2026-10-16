@@ -1,0 +1,28 @@
+{
+  "page": {
+    "toc": "Auf dieser Seite"
+  },
+  "error": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht."
+  },
+  "language": {
+    "switch": "Sprache wechseln"
+  },
+  "status": {
+    "unknown": "unbekannt",
+    "online": "online",
+    "offline": "offline"
+  },
+  "features": {
+    "feature": "Feature",
+    "yes": "ja",
+    "no": "nein"
+  },
+  "teams": {
+    "registered": "{count} Teams benutzen bereits den PrimeBot (. ❛ ᴗ ❛.)"
+  },
+  "changelog": {
+    "error": "Die Changelogs konnten nicht geladen werden. Alle Releases findest du auf {link}."
+  }
+}
