@@ -13,19 +13,25 @@ COPY . .
 RUN --mount=type=cache,id=pnpm,target=/var/cache/pnpm \
     pnpm install --store-dir /var/cache/pnpm --frozen-lockfile --offline
 
-RUN pnpm generate
+# SSR build (needed for Nuxt Studio auth); pages are still prerendered via nitro.prerender
+RUN pnpm build
 
-FROM caddy:2.11-alpine
+# Same distro as the build stage (glibc), so native binaries in .output keep working
+FROM node:24-slim
+WORKDIR /app
 
-# Run unprivileged; Caddy only needs write access to its data/config dirs
-RUN addgroup -S caddy && adduser -S -G caddy -H -s /sbin/nologin caddy \
-    && chown -R caddy:caddy /data /config
+ENV NODE_ENV=production \
+    HOST=0.0.0.0 \
+    PORT=8080 \
+    NUXT_CONTENT_DATABASE_FILENAME=/app/.data/content/contents.sqlite
 
-COPY --chown=root:root Caddyfile /etc/caddy/Caddyfile
-COPY --from=build --chown=root:root /app/.output/public /srv
+COPY --from=build --chown=root:root /app/.output ./.output
+RUN mkdir -p .data/content && chown -R node:node .data
 
-USER caddy
+USER node
 EXPOSE 8080
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget -q --spider http://127.0.0.1:8080/healthz || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD ["node", "-e", "fetch('http://127.0.0.1:8080/').then(r => process.exit(r.ok ? 0 : 1), () => process.exit(1))"]
+
+CMD ["node", ".output/server/index.mjs"]

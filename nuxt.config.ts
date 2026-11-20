@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-10-01',
 
   nitro: {
-    // Emit .br/.gz next to the static files, served as-is by Caddy (`file_server { precompressed }`)
+    // Emit .br/.gz next to the static files, served as-is by Nitro
     compressPublicAssets: true,
     prerender: {
       // Dropdown links are not part of the server-rendered HTML, so the crawler alone misses pages
@@ -73,9 +73,8 @@ export default defineNuxtConfig({
   studio: {
     repository: {
       provider: 'github',
-      // TODO: set to the final repository
-      owner: 'OrbisK',
-      repo: 'primebot-nuxt',
+      owner: 'random-rip',
+      repo: 'primebot.me',
       branch: 'main'
     }
   }
