@@ -13,11 +13,10 @@ publicHoistPattern:
 patchedDependencies:
   # Nuxt 5 has no global `$fetch` in the browser → import it from `#imports`
   '@nuxt/content@3.16.2': patches/@nuxt__content@3.16.2.patch
-  '@nuxtjs/mdc@0.21.1': patches/@nuxtjs__mdc@0.21.1.patch
   '@nuxtjs/mdc@0.23.2': patches/@nuxtjs__mdc@0.23.2.patch
-  nuxt-component-meta@0.17.2: patches/nuxt-component-meta@0.17.2.patch
   nuxt-component-meta@0.18.0: patches/nuxt-component-meta@0.18.0.patch
-  nuxt-studio@1.7.0: patches/nuxt-studio@1.7.0.patch
+  nuxt-component-meta@0.19.0: patches/nuxt-component-meta@0.19.0.patch
+  nuxt-studio@1.8.2: patches/nuxt-studio@1.8.2.patch
   # Nitro's `#i18n` alias (server-only composables) leaks into the Vue SSR bundle → import the app composables directly
   '@nuxtjs/i18n@10.6.0': patches/@nuxtjs__i18n@10.6.0.patch
   # Treat ENOTDIR like ENOENT in `try` mode (breaks Nuxt 5 + nuxt-component-meta on 2nd run)
