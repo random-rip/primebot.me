@@ -33,6 +33,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-10-01',
 
   nitro: {
+    // Emit .br/.gz next to the static files, served as-is by Caddy (`file_server { precompressed }`)
+    compressPublicAssets: true,
     prerender: {
       // Dropdown links are not part of the server-rendered HTML, so the crawler alone misses pages
       // content/de/* → /*, content/en/* → /en/*

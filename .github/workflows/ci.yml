@@ -4,28 +4,18 @@ on: push
 
 jobs:
   ci:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [24]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Install node
-        uses: actions/setup-node@v7
+      # pnpm + Node.js from devEngines in package.json, cached store, `pnpm install --frozen-lockfile`
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@v3
         with:
-          node-version: ${{ matrix.node }}
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
+          require-lockfile: true
 
       - name: Lint
         run: pnpm run lint

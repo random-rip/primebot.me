@@ -2,7 +2,18 @@
   "name": "primebot-nuxt",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.34.1",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.22.0",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "24.x",
+      "onFail": "download"
+    }
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

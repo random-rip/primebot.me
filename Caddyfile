@@ -1,0 +1,56 @@
+{
+	# Immutable container: no runtime config API needed
+	admin off
+	# TLS is terminated by the reverse proxy in front of this container
+	auto_https off
+
+	servers {
+		# Trust X-Forwarded-* from the proxy so logs show real client IPs
+		trusted_proxies static private_ranges
+		client_ip_headers X-Forwarded-For X-Real-IP
+	}
+}
+
+:8080 {
+	root * /srv
+
+	log {
+		output stdout
+		format json
+	}
+
+	@health path /healthz
+	handle @health {
+		respond "ok" 200
+	}
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		X-Frame-Options SAMEORIGIN
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+
+	# Hashed build assets never change → cache forever
+	@immutable path /_nuxt/*
+	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	# HTML, payloads and everything else must be revalidated so deploys show up immediately
+	@revalidate not path /_nuxt/*
+	header @revalidate Cache-Control "public, max-age=0, must-revalidate"
+
+	# Prerendered routes: /foo → /foo/index.html or /foo.html
+	try_files {path} {path}/index.html {path}.html
+
+	# Serve Nitro's precompressed .br/.gz files, compress the rest on the fly
+	encode zstd gzip
+	file_server {
+		precompressed br gzip
+	}
+
+	handle_errors 404 {
+		rewrite * /404.html
+		file_server
+	}
+}

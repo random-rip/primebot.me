@@ -1,5 +1,9 @@
-onlyBuiltDependencies:
-  - sharp
+# Only sharp needs its install script; the others work without theirs
+allowBuilds:
+  sharp: true
+  esbuild: false
+  unrs-resolver: false
+  vue-demi: false
 
 # Nitro 3 (Nuxt 5) prerender resolves these from the project root
 publicHoistPattern:
